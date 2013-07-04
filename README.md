@@ -17,4 +17,19 @@ Usable for:
 Made by: Bart Oosterveld
 Made with Appcelerator Titanium
 
+Known Errors:
+- Sometimes UDP or TCP communication is failing. When this happen you have to follow a couple of steps (only tested on IOS)
+- install WiFlyClient app
+- begin scanning
+- open communication with your arduino
+- type *something* and hit return
+- on the next line remove the '>' sign and type *something* again and hit return
+- now type *PN1234* assuming your pincode is PN1234.
+- if you get PINOK message the app should work.
+
+The code for handling multiple phones on one arduino is not finished
+
+install notes:
+- create a new classic default application in Appcelerator titanium
+- replace the Resouces directory with the one in this git
 
