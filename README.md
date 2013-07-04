@@ -22,9 +22,9 @@ Known Errors:
 - install WiFlyClient app
 - begin scanning
 - open communication with your arduino
-- type '*something*' and hit return
-- on the next line remove the '>' sign and type *something* again and hit return
-- now type *PN1234* assuming your pincode is PN1234.
+- type '*something*' (without '') and hit return
+- on the next line remove the '>' sign and type '*something*' again and hit return
+- now type '*PN1234*' assuming your pincode is PN1234.
 - if you get PINOK message the app should work.
 
 The code for handling multiple phones on one arduino is not finished
