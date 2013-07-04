@@ -101,6 +101,9 @@ function AttachView(e) {
        	height: 'auto',
        	top: 10
     });
+///////////bottomView////////////
+
+
 /////////background tasks//////////
 	var dialog = Ti.UI.createAlertDialog({
             title: 'Enter Pin (without PN!)',
@@ -118,6 +121,24 @@ function AttachView(e) {
 /////////functions///////////
     
     function startConnection(i,h,p){
+    	
+    	var back = Ti.UI.createButton({
+			font: { fontSize:15,fontFamily:'Helvitica Neue' },
+			title:'cancel',
+			height:35,
+			top:'10%',
+			left:10,
+			width:'auto'
+		});
+		
+		bottomView.add(back);
+	
+		back.addEventListener('click', function(e){
+		clientSocket.close();
+		stopTimer();
+		self.fireEvent('back', {});
+		});
+
     	
     	var timerCount = 20000;
     	
@@ -205,7 +226,22 @@ function AttachView(e) {
                   	Ti.API.info('pin ok!');
                    	sendValue = '$$$'
               	}else if(received.match('PINERR')){
-              		alert('incorrect pin');m,m
+              		stopTimer();
+              		
+              		var wrongPin = Ti.UI.createAlertDialog({
+           				message: 'Returning to homescreen',
+            			ok: 'ok',
+            			title: 'wrong pincode'
+        			});
+        
+        			wrongPin.addEventListener('click', function(e){
+            			clientSocket.close();
+            			self.fireEvent('back', {
+            			});  			
+                    });
+                    
+     				wrongPin.show();
+
                   	Ti.API.info('incorrect Pin');
               	}else if(received.match('CMD')){
               		
@@ -267,7 +303,22 @@ function AttachView(e) {
            } else {
                 Ti.API.error('Error: read callback called with no buffer!');
                 closeSocket = false;
-                alert('connection failed, restart application');
+                
+                stopTimer();
+              		
+              		var connectionError = Ti.UI.createAlertDialog({
+           				message: 'Returning to menu, RESTART WIFLY!',
+            			ok: 'ok',
+            			title: 'connection error'
+        			});
+        
+        			connectionError.addEventListener('click', function(e){
+            			self.fireEvent('back', {
+            			});  			
+                    });
+                    
+     				connectionError.show();
+     				
             }
         } catch (ex) {
             Ti.API.error(ex);
@@ -279,15 +330,25 @@ function AttachView(e) {
         if(closeSocket){
             clientSocket.close();
         }
-            self.fireEvent('goHome', {
-            });
         });
         
         function startTimer(){
         	timeOut = setTimeout(function(){
 					clientSocket.close();
-					alert('time out, close application and try again');
-				},timerCount);
+
+              		var timeout = Ti.UI.createAlertDialog({
+           				message: 'Returning to homescreen',
+            			ok: 'ok',
+            			title: 'timeout'
+        			});
+        
+        			timeout.addEventListener('click', function(e){
+            			self.fireEvent('back', {
+            			});  			
+                    });
+                    
+     				timeout.show();
+			},timerCount);
         }
         function stopTimer(){
         	clearTimeout(timeOut);

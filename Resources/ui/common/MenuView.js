@@ -219,7 +219,7 @@ function MenuView(e) {
      				dialog.show();
      			
                 }else if(received.match('PINERR')){
-                	alert('wrong pass socket closed')
+                	alert('wrong pincode')
                 	clientSocket.close();
                 	return;
                 }else if(received.match('PS')){

@@ -106,7 +106,14 @@ function StartAppView(e) {
 		
 //////////functions//////////
 	function startSocket(t,i,h){
-		
+		Ti.API.info(Ti.Network.networkTypeName);
+		if(Ti.Network.networkTypeName == 'NONE'){
+			connectionLost();
+		}
+		Ti.Network.addEventListener('change', function(e){
+			connectionLost();
+		});	
+			
 		back.addEventListener('click', function(e){
 			if(socketStarted){
 				socket.stop();
@@ -190,7 +197,24 @@ function StartAppView(e) {
     midView.add(sSlider);
 	midView.add(blbl);
 	midView.add(bSlider);
-	    
+	
+	function connectionLost(){
+		var connectionLost = Ti.UI.createAlertDialog({
+           		message: 'Returning to menu',
+            	ok: 'ok',
+            	title: 'connection lost'
+        	});
+        
+        	connectionLost.addEventListener('click', function(e){
+        		if(socketStarted){
+					socket.stop();
+				}
+            	self.fireEvent('back', {
+            	});  			
+          	});
+                    
+     		connectionLost.show();
+	}	    
 	}//end function startSocket
 	
 return self;

@@ -13,6 +13,9 @@ function AttachWindow(e) {
 	var attachView = new AttachView(e);
 	self.add(attachView);
 	
+	attachView.addEventListener('back', function(e) {
+		self.close();
+	});
 	
 	return self;
 }
